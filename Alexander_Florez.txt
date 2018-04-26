@@ -1,0 +1,92 @@
+--------------------------------------------------------
+-- Archivo creado  - miércoles-abril-25-2018   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Function FUNCTION_1
+--------------------------------------------------------
+
+  CREATE OR REPLACE FUNCTION "FUNCTION_1" (a in number, b in number, c in number)
+return varchar2 is
+Begin
+  If b >= c then
+    return (a || '/' ||(a*b) || '/' ||'Andres');
+  Else
+    return (a || '/' ||(a*b) || '/' ||'Martinez');
+  End If;  
+End;
+--------------------------------------------------------
+--  DDL for Function FUNCTION_2
+--------------------------------------------------------
+
+  CREATE OR REPLACE FUNCTION "FUNCTION_2" (a in number, b in varchar2, c in varchar2)
+return varchar2 is
+
+n number;
+m number;
+rev number:=0;
+r number;
+text varchar2(255);
+
+--min/mayus
+v_length number(10);
+v_out varchar2(20);
+
+--Vocales
+cont number(10) := 0;
+
+--Posiciones
+pos number(10) := 0;
+ 
+begin
+  --Palindromo
+    n:=function_2.a;
+    m:=n;
+    
+    while n>0
+    loop
+        r:=mod(n,10);
+        rev:=(rev*10)+r;
+        n:=trunc(n/10);
+    end loop;    
+    if m=rev
+    then
+        text := 'true/';
+    else
+        text := 'false/';
+    end if;
+    
+  --Minusculas/Mayusculas
+  v_length := length(function_2.b);
+  for i in 1..v_length
+  Loop
+    v_out  := substr(function_2.b,i,1) ;
+    if (MOD(i,2) = 0) then    
+      text := text || LOWER(v_out);
+    else
+      text := text || UPPER(v_out);
+    end if;    
+  End loop;
+    
+    --Vocales
+    v_length := length(function_2.c);
+  for i in 1..v_length
+  Loop
+    v_out  := substr(function_2.c,i,1) ;
+    if (LOWER(v_out) = ('a')) then cont := cont+1; end if;    
+    if (LOWER(v_out) = ('e')) then cont := cont+1; end if;    
+    if (LOWER(v_out) = ('i')) then cont := cont+1; end if;    
+    if (LOWER(v_out) = ('o')) then cont := cont+1; end if;    
+    if (LOWER(v_out) = ('u')) then cont := cont+1; end if;    
+    
+  End loop;
+  text := text || '/' || TO_CHAR(cont) ;    
+    
+    --Posiciones
+    pos := LENGTH(function_2.a) + LENGTH(function_2.b) + LENGTH(function_2.c);
+    
+    text := text || '/' || pos;
+    
+    
+  --mostrar resultado
+    return text;
+end;
